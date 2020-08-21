@@ -2,15 +2,19 @@ import 'dart:async';
 
 import 'package:dartlearn/ClipRoute.dart';
 import 'package:dartlearn/ContainerRoute.dart';
+import 'package:dartlearn/CustomScrollViewRoute.dart';
 import 'package:dartlearn/FormTestRoute.dart';
+import 'package:dartlearn/ListViewRoute.dart';
 import 'package:dartlearn/NewRoute.dart';
 import 'package:dartlearn/ParentWidget.dart';
 import 'package:dartlearn/ProgressRoute.dart';
 import 'package:dartlearn/RandomWordsWidget.dart';
 import 'package:dartlearn/ScaffoldRoute.dart';
+import 'package:dartlearn/SingleChildScrollViewRoute.dart';
 import 'package:dartlearn/SwitchAndCheckBoxTestRoute.dart';
 import 'package:dartlearn/TapBoxA.dart';
 import 'package:dartlearn/TextFieldRoute.dart';
+import 'package:dartlearn/GridViewRoute.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -38,6 +42,7 @@ class MyApp extends StatelessWidget {
         "progress_page": (context) => ProgressRoute(),
         "container_page": (context) => ScaffoldRoute(),
         "clip_page": (context) => ClipRoute(),
+        "listview_page": (context) => ListViewRoute(),
       },
       onGenerateRoute: (RouteSettings settings) {
         String routeName = settings.name;
@@ -49,6 +54,10 @@ class MyApp extends StatelessWidget {
               builder: (context) => SwitchAndCheckBoxTestRoute());
         } else if (routeName == "text_field_page") {
           return MaterialPageRoute(builder: (context) => TextFieldRoute());
+        } else if (routeName == "grid_page") {
+          return MaterialPageRoute(builder: (context) => GridViewRoute());
+        } else if (routeName == "customScrollView_page") {
+          return MaterialPageRoute(builder: (context) => CustomScrollViewRoute());
         }
         return null;
       },
@@ -159,9 +168,15 @@ class _MyHomePageState extends State<MyHomePage> {
     print("dispose");
   }
 
+  static final tag = "##loadingtag##";
+  var _words = <String>[tag];
+
   @override
   Widget build(BuildContext context) {
     print("build");
+    _words.insert(0, "123");
+    print(_words[1]);
+
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -174,118 +189,129 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              '$t',
-              style: Theme.of(context).textTheme.headline6,
-            ),
-            RaisedButton(
-              child: Text("open new route"),
-              textColor: Colors.blue,
-              onPressed: () async {
-//                var result=await Navigator.push(context, MaterialPageRoute(builder: (context)=>NewRoute()));
-                var result = await Navigator.of(context)
-                    .pushNamed("new_page", arguments: "         hi");
-                print(result);
-              },
-            ),
-            RaisedButton(
-                child: Text("open switch check"),
+      body: Scrollbar(
+          child: SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
+        padding: EdgeInsets.all(16.0),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                '$t',
+                style: Theme.of(context).textTheme.headline6,
+              ),
+              RaisedButton(
+                child: Text("open new route"),
                 textColor: Colors.blue,
-                onPressed: () => {
+                onPressed: () async {
 //                var result=await Navigator.push(context, MaterialPageRoute(builder: (context)=>NewRoute()));
-                      Navigator.of(context).pushNamed("switch_checkbox_page")
-                    }),
-            RaisedButton(
-                child: Text("open text field"),
-                textColor: Colors.blue,
-                onPressed: () => {
+                  var result = await Navigator.of(context)
+                      .pushNamed("new_page", arguments: "         hi");
+                  print(result);
+                },
+              ),
+              RaisedButton(
+                  child: Text("open switch check"),
+                  textColor: Colors.blue,
+                  onPressed: () => {
 //                var result=await Navigator.push(context, MaterialPageRoute(builder: (context)=>NewRoute()));
-                      Navigator.of(context).pushNamed("text_field_page")
-                    }),
-            RaisedButton(
-                child: Text("open form test"),
-                textColor: Colors.blue,
-                onPressed: () => {
+                        Navigator.of(context).pushNamed("switch_checkbox_page")
+                      }),
+              RaisedButton(
+                  child: Text("open text field"),
+                  textColor: Colors.blue,
+                  onPressed: () => {
 //                var result=await Navigator.push(context, MaterialPageRoute(builder: (context)=>NewRoute()));
-                      Navigator.of(context).pushNamed("form_page")
-                    }),
-            RaisedButton(
-                child: Text("open progress test"),
-                textColor: Colors.blue,
-                onPressed: () => {
+                        Navigator.of(context).pushNamed("text_field_page")
+                      }),
+              RaisedButton(
+                  child: Text("open form test"),
+                  textColor: Colors.blue,
+                  onPressed: () => {
 //                var result=await Navigator.push(context, MaterialPageRoute(builder: (context)=>NewRoute()));
-                      Navigator.of(context).pushNamed("progress_page")
-                    }),
-            RaisedButton(
-                child: Text("open container test"),
-                textColor: Colors.blue,
-                onPressed: () => {
+                        Navigator.of(context).pushNamed("form_page")
+                      }),
+              RaisedButton(
+                  child: Text("open progress test"),
+                  textColor: Colors.blue,
+                  onPressed: () => {
 //                var result=await Navigator.push(context, MaterialPageRoute(builder: (context)=>NewRoute()));
-                  Navigator.of(context).pushNamed("container_page")
-                }),
-            RaisedButton(
-                child: Text("open clip test"),
-                textColor: Colors.blue,
-                onPressed: () => {
+                        Navigator.of(context).pushNamed("progress_page")
+                      }),
+              RaisedButton(
+                  child: Text("open container test"),
+                  textColor: Colors.blue,
+                  onPressed: () => {
 //                var result=await Navigator.push(context, MaterialPageRoute(builder: (context)=>NewRoute()));
-                  Navigator.of(context).pushNamed("clip_page")
-                }),
-            Builder(builder: (context) {
-              return RaisedButton.icon(
-                  elevation: 3.0,
-                  label: Text("show SnackBar"),
-                  icon: Icon(Icons.add_comment),
-                  textColor: Colors.white,
-                  color: Colors.blue,
-                  splashColor: Colors.blueGrey,
-                  highlightColor: Colors.red,
-                  disabledColor: Colors.grey,
-                  padding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.0)),
-                  onPressed: _enable
-                      ? null
-                      : () {
-                          ScaffoldState _state =
-                              context.findAncestorStateOfType<ScaffoldState>();
-                          print(_state);
-                          _state.showSnackBar(SnackBar(
-                            content: Text("我是SnackBar"),
-                          ));
-                        });
-            }),
-            Padding(
-              padding: const EdgeInsets.only(top: 20.0),
-              child: ParentWidget(),
-            )
-          ],
+                        Navigator.of(context).pushNamed("container_page")
+                      }),
+              RaisedButton(
+                  child: Text("open clip test"),
+                  textColor: Colors.blue,
+                  onPressed: () => {
+//                var result=await Navigator.push(context, MaterialPageRoute(builder: (context)=>NewRoute()));
+                        Navigator.of(context).pushNamed("clip_page")
+                      }),
+              RaisedButton(
+                  child: Text("open listview test"),
+                  textColor: Colors.blue,
+                  onPressed: () => {
+//                var result=await Navigator.push(context, MaterialPageRoute(builder: (context)=>NewRoute()));
+                        Navigator.of(context).pushNamed("listview_page")
+                      }),
+              RaisedButton(
+                  child: Text("open gridview test"),
+                  textColor: Colors.blue,
+                  onPressed: () => {
+//                var result=await Navigator.push(context, MaterialPageRoute(builder: (context)=>NewRoute()));
+                        Navigator.of(context).pushNamed("grid_page")
+                      }),
+              RaisedButton(
+                  child: Text("open customScrollView test"),
+                  textColor: Colors.blue,
+                  onPressed: () => {
+//                var result=await Navigator.push(context, MaterialPageRoute(builder: (context)=>NewRoute()));
+                        Navigator.of(context).pushNamed("customScrollView_page")
+                      }),
+              Builder(builder: (context) {
+                return RaisedButton.icon(
+                    elevation: 3.0,
+                    label: Text("show SnackBar"),
+                    icon: Icon(Icons.add_comment),
+                    textColor: Colors.white,
+                    color: Colors.blue,
+                    splashColor: Colors.blueGrey,
+                    highlightColor: Colors.red,
+                    disabledColor: Colors.grey,
+                    padding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.0)),
+                    onPressed: _enable
+                        ? null
+                        : () {
+                            ScaffoldState _state = context
+                                .findAncestorStateOfType<ScaffoldState>();
+                            print(_state);
+                            _state.showSnackBar(SnackBar(
+                              content: Text("我是SnackBar"),
+                            ));
+                          });
+              }),
+              Padding(
+                padding: const EdgeInsets.only(top: 20.0),
+                child: SingleChildScrollViewRoute(),
+              )
+            ],
+          ),
         ),
-      ),
+        // This trailing comma makes auto-formatting nicer for build methods.
+      )),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
         tooltip: 'Increment',
         child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
     );
   }
 }
