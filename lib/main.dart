@@ -3,10 +3,13 @@ import 'dart:async';
 import 'package:dartlearn/ClipRoute.dart';
 import 'package:dartlearn/ContainerRoute.dart';
 import 'package:dartlearn/CustomScrollViewRoute.dart';
+import 'package:dartlearn/DialogTest.dart';
 import 'package:dartlearn/FormTestRoute.dart';
+import 'package:dartlearn/FutureBuilderTest.dart';
 import 'package:dartlearn/ListViewRoute.dart';
 import 'package:dartlearn/NewRoute.dart';
 import 'package:dartlearn/ParentWidget.dart';
+import 'package:dartlearn/PointEventTest.dart';
 import 'package:dartlearn/ProgressRoute.dart';
 import 'package:dartlearn/RandomWordsWidget.dart';
 import 'package:dartlearn/ScaffoldRoute.dart';
@@ -17,6 +20,8 @@ import 'package:dartlearn/TextFieldRoute.dart';
 import 'package:dartlearn/GridViewRoute.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import 'GestureRoute.dart';
 
 void main() {
 //  FlutterError.onError = (FlutterErrorDetails details) {
@@ -43,6 +48,7 @@ class MyApp extends StatelessWidget {
         "container_page": (context) => ScaffoldRoute(),
         "clip_page": (context) => ClipRoute(),
         "listview_page": (context) => ListViewRoute(),
+        "futurebuilder_page": (context) => FutureBuilderTest(),
       },
       onGenerateRoute: (RouteSettings settings) {
         String routeName = settings.name;
@@ -57,7 +63,8 @@ class MyApp extends StatelessWidget {
         } else if (routeName == "grid_page") {
           return MaterialPageRoute(builder: (context) => GridViewRoute());
         } else if (routeName == "customScrollView_page") {
-          return MaterialPageRoute(builder: (context) => CustomScrollViewRoute());
+          return MaterialPageRoute(
+              builder: (context) => CustomScrollViewRoute());
         }
         return null;
       },
@@ -274,6 +281,36 @@ class _MyHomePageState extends State<MyHomePage> {
 //                var result=await Navigator.push(context, MaterialPageRoute(builder: (context)=>NewRoute()));
                         Navigator.of(context).pushNamed("customScrollView_page")
                       }),
+              RaisedButton(
+                  child: Text("open futureBuilder test"),
+                  textColor: Colors.blue,
+                  onPressed: () => {
+//                var result=await Navigator.push(context, MaterialPageRoute(builder: (context)=>NewRoute()));
+                        Navigator.of(context).pushNamed("futurebuilder_page")
+                      }),
+              RaisedButton(
+                  child: Text("open Dialog test"),
+                  textColor: Colors.blue,
+                  onPressed: () => {
+//                var result=await Navigator.push(context, MaterialPageRoute(builder: (context)=>NewRoute()));
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => DialogTest()))
+                      }),
+              RaisedButton(
+                  child: Text("open PointEvent test"),
+                  textColor: Colors.blue,
+                  onPressed: () => {
+//                var result=await Navigator.push(context, MaterialPageRoute(builder: (context)=>NewRoute()));
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => PointerEventRoute()))
+                  }), RaisedButton(
+                  child: Text("open Gesture test"),
+                  textColor: Colors.blue,
+                  onPressed: () => {
+//                var result=await Navigator.push(context, MaterialPageRoute(builder: (context)=>NewRoute()));
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => GestureRoute()))
+                  }),
               Builder(builder: (context) {
                 return RaisedButton.icon(
                     elevation: 3.0,
